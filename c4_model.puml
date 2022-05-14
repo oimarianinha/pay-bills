@@ -1,0 +1,35 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+!include DEVICONS/python.puml
+!include DEVICONS/react.puml
+!include DEVICONS/docker.puml
+!include DEVICONS/sqllite.puml
+!include FONTAWESOME/paypal.puml
+
+
+AddElementTag("backend container", $fontColor=$ELEMENT_FONT_COLOR, $bgColor="#335DA5", $shape=EightSidedShape())
+
+title Diagrama C4 Model para Sistema de Gerenciamento de Financas - Pay Bills  
+
+Person(user, User, "Usuário do sistema com a suas financas pessoais")
+
+System_Boundary(c4, "Pay Bills") {
+    Container(web_app, "Aplicacao Web", "React, Docker Container", "Provides a limited subset of the Internet banking functionality to customers via their mobile device", "react")
+    Container(backend_api, "API", "Flask API, Python, Docker Container", "Provides Internet banking functionality via API", "python", $tags="backend container")
+    ContainerDb(database, "Database", "SQL Database", "Stores user registration information, hashed auth credentials, access logs, etc.", "sqllite")
+}
+
+System_Ext(banking_system, "Carteira digital de Pagamentos", "Sistema para pagamentos das contas.", "paypal")
+
+Rel(user, web_app, "Uses", "HTTPS")
+
+Rel(web_app, backend_api, "Usa", "JSON/HTTPS")
+Rel_Back_Neighbor(database, backend_api, "Reads from and writes to", "sync, JDBC")
+
+Rel_Neighbor(backend_api, banking_system, "Usa", "JSON/HTTPS")
+
+SHOW_LEGEND()
+@enduml

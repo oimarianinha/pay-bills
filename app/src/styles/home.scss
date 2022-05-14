@@ -1,0 +1,105 @@
+@import "./variables.scss";
+
+#page-home {
+  display: flex;
+  align-items: stretch;
+  height: 100vh; /* Ocupa tamanho total da altura da tela */
+
+  .content-menu {
+    flex: 1;
+    background: var(--black);
+    color: var(--white);
+    max-width: 360px;
+    text-align: center;
+
+    padding: 10px 10px;
+
+    img {
+      max-width: 250px;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+
+    .separator {
+      border: 0.5px solid #BABABA;
+      width: auto;
+    }
+
+    span {
+      position: absolute;
+      top: 0;
+      width: 120px;
+      border: 1px solid var(--white);
+    }
+
+    .menu-items {
+      margin-top: 50px;
+      line-height: 70px;
+      font-size: 18px;
+
+      li {
+        list-style-type: none;
+      }
+    }
+    .content-footer {
+      background-color: #ccc;
+      height: 37px;
+      position: fixed;
+      bottom: 0;
+
+      p {
+        text-align: left;
+      }
+    }
+    li:hover {
+      background-color: #151515;
+      border-radius: 8px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    span {
+      display: flex;
+      flex-direction: row-reverse;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  }
+
+  main {
+    flex: 8;
+    padding: 0 32px;
+
+    .avatar {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 19px;
+
+      img {
+        width: 5%;
+        border-radius: 5px;
+      }
+    }
+
+    .separator {
+      margin-top: 17px;
+      border: 1px solid #BABABA;
+    }
+
+    .bills-content {
+      display: flex;
+      justify-content: space-around;
+
+      .income {
+        background: #59981b;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+      }
+      .outgoing {
+        background: #e72d2d;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+      }
+    }
+  }
+}

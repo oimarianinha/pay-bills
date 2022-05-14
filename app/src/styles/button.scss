@@ -1,0 +1,40 @@
+@import "./variables.scss";
+
+.button {
+  height: 43px;
+  width: 420px;
+  font-weight: 200;
+
+  padding: 0 32px;
+  border-radius: 10px;
+  background: var(--button);
+  color: var(--black);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  border: 0;
+
+  transition: filter 0.2s;
+
+  img {
+    margin-right: 8px;
+  }
+
+  &.outlined {
+    background: var(--white);
+    border: 1px solid var(--purple);
+    color: var(--purple);
+  }
+
+  &:not(:disabled):hover {
+    filter: brightness(0.9);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
