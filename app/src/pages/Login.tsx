@@ -1,6 +1,5 @@
 // React
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { FormEvent, useState } from "react";
 
 // SVG, PNG, JPG
@@ -20,26 +19,33 @@ import { database } from "../services/firebase";
 export function Login() {
   const history = useHistory();
   const { user, signInWithGoogle } = UserAuth();
+  const [email, setLogin] = useState("");
+  const [password, set] = useState("");
+
+  const [isShown, setIsSHown] = useState(false);
+
+  const togglePassword = () => {
+    setIsSHown((isShown) => !isShown);
+  };
 
   async function authLogin(event: FormEvent) {
     event.preventDefault();
 
-    if (!user) {
-      await signInWithGoogle();
-    }
 
-    const userReference = database.ref("users");
-    const firebaseUser = await userReference.push({
-      email: event.target,
-      senha: event.target,
-    });
-
-    history.push(`/users/${firebaseUser.key}`);
+    
   }
   return (
     <div id="page-login">
       <Illustration></Illustration>
       <main>
+        <div className="register-content">
+          <p>
+            Ainda não tem uma conta?{" "}
+            <Link className="link-register" to="/register">
+              Cadastre-se
+            </Link>
+          </p>
+        </div>
         <div className="main-content">
           <button className="login-google">
             <img src={iconGoogle} alt="Logo do Google" />
@@ -47,7 +53,22 @@ export function Login() {
           <div className="separator">ou</div>
           <form onSubmit={authLogin}>
             <input type="text" name="email" placeholder="Email" />
-            <input type="password" name="password" placeholder="Senha" />
+            <div className="pass">
+              <input
+                type={isShown ? "text" : "password"}
+                name="password"
+                placeholder="Senha"
+              />
+              <i
+                className={
+                  isShown
+                    ? "fa fa-eye password-icon"
+                    : "fa fa-eye-slash password-icon"
+                }
+                aria-hidden="true"
+                onClick={togglePassword}
+              />
+            </div>
             <Button type="submit">Entrar</Button>
             <span>
               <a href="">Esqueceu a senha?</a>
@@ -55,14 +76,6 @@ export function Login() {
           </form>
         </div>
       </main>
-      <div className="register-content">
-        <p>
-          Ainda não tem uma conta?{" "}
-          <Link className="link-register" to="/register">
-            Cadastre-se
-          </Link>
-        </p>
-      </div>
     </div>
   );
 }

@@ -17,8 +17,10 @@
 
 #### 📋 [Objetivo do Projeto](#objetivo-do-projeto)
 
-O objetivo é fornecer um sistema de gerenciamento de financas, centralizado e com controle total de despesas, receitas e
-investimentos pessoais.
+O objetivo é fornecer um sistema de gerenciamento de financas, centralizado e com controle total de despesas, receitas e investimentos pessoais.
+
+![Modelo da aplicação](docs/tela-login.png "Modelo da aplicação")
+
 
 #### 🛠️ [Protótipo construído com:](#prototipo-construido-com)
 
@@ -41,8 +43,7 @@ investimentos pessoais.
 
 ## [ETAPA 2 - 15/06](#etapa-2---1506)
 
-#### [Prévia](#previa)
-Você pode ver a prévia desse projeto no botão abaixo. Let's go!
+
 
 
 ---

@@ -4661,41 +4661,9 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
-firebase@*:
+firebase@*, firebase@^9.8.1:
   version "9.8.1"
   resolved "https://registry.npmjs.org/firebase/-/firebase-9.8.1.tgz"
-  integrity sha512-VyM+3ijzB1Q24b9v6HzVOB0bXNy0a/maOZlmv2P8M29VXfrS/npo6zntNiOEtcjrCoItZIuWFH4oDGiYkPHxbg==
-  dependencies:
-    "@firebase/analytics" "0.7.9"
-    "@firebase/analytics-compat" "0.1.10"
-    "@firebase/app" "0.7.24"
-    "@firebase/app-check" "0.5.8"
-    "@firebase/app-check-compat" "0.2.8"
-    "@firebase/app-compat" "0.1.25"
-    "@firebase/app-types" "0.7.0"
-    "@firebase/auth" "0.20.1"
-    "@firebase/auth-compat" "0.2.14"
-    "@firebase/database" "0.13.0"
-    "@firebase/database-compat" "0.2.0"
-    "@firebase/firestore" "3.4.9"
-    "@firebase/firestore-compat" "0.1.18"
-    "@firebase/functions" "0.8.1"
-    "@firebase/functions-compat" "0.2.1"
-    "@firebase/installations" "0.5.9"
-    "@firebase/messaging" "0.9.13"
-    "@firebase/messaging-compat" "0.1.13"
-    "@firebase/performance" "0.5.9"
-    "@firebase/performance-compat" "0.1.9"
-    "@firebase/polyfill" "0.3.36"
-    "@firebase/remote-config" "0.3.8"
-    "@firebase/remote-config-compat" "0.1.9"
-    "@firebase/storage" "0.9.6"
-    "@firebase/storage-compat" "0.1.14"
-    "@firebase/util" "1.6.0"
-
-firebase@^9.8.1:
-  version "9.8.1"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-9.8.1.tgz#502e186078d69d72ab8d4f1b5befa287e0858276"
   integrity sha512-VyM+3ijzB1Q24b9v6HzVOB0bXNy0a/maOZlmv2P8M29VXfrS/npo6zntNiOEtcjrCoItZIuWFH4oDGiYkPHxbg==
   dependencies:
     "@firebase/analytics" "0.7.9"
