@@ -7,7 +7,7 @@ export function Illustration(){
         <img src={logo} alt="Logo do sistema Pay Bills" />
         <img src={computerIlustration} alt="Ilustração simbolizando perguntas e respostas" />
         <strong>
-          Controle suas contas <br></br>de um são lugar
+          Controle suas contas <br></br>de um só lugar
         </strong>
         <p>
           Pague suas contas, veja suas economias

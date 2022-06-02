@@ -1,6 +1,7 @@
 // React
-import { useHistory, Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FormEvent, useState } from "react";
+import { translationFirebaseErrorsPTBR } from "react-translation-firebase-errors";
 
 // SVG, PNG, JPG
 import iconGoogle from "../assets/icons/google-icon.png";
@@ -12,16 +13,11 @@ import "../styles/login.scss";
 import { Button } from "../components/Button";
 import { Illustration } from "../components/Illustration";
 import { UserAuth } from "../hooks/userAuth";
-
-//Firebase
-import { database } from "../services/firebase";
+import { Notification, Toast } from "../components/utils/Notification";
 
 export function Login() {
   const history = useHistory();
-  const { user, signInWithGoogle } = UserAuth();
-  const [email, setLogin] = useState("");
-  const [password, set] = useState("");
-
+  const { user, loginWithEmailandPassword, signInWithGoogle } = UserAuth();
   const [isShown, setIsSHown] = useState(false);
 
   const togglePassword = () => {
@@ -31,9 +27,61 @@ export function Login() {
   async function authLogin(event: FormEvent) {
     event.preventDefault();
 
+    const email = event.currentTarget.getElementsByTagName("input")[0].value;
+    const senha = event.currentTarget.getElementsByTagName("input")[1].value;
 
-    
+    const value = {
+      email,
+      senha,
+    };
+
+    if (!email) {
+      Notification({
+        type: "warn",
+        message:
+          "Digite um e-mail válido!",
+      });
+      return;
+    }
+
+    if (!senha) {
+      Notification({
+        type: "warn",
+        message:
+          "Digite uma senha!",
+      });
+      return;
+    }
+
+    await loginWithEmailandPassword(value)
+      .then(() => {
+        history.push("/home");
+      })
+      .catch((error) => {
+        const message = translationFirebaseErrorsPTBR(error.code);
+        Notification({
+          type: "error",
+          message: `${message}`,
+        });
+      });
   }
+
+  async function authLoginGoogle() {
+    if (!user) {
+      await signInWithGoogle()
+        .then(() => {
+          history.push("/home");
+        })
+        .catch((error) => {
+          const message = translationFirebaseErrorsPTBR(error.code);
+          Notification({
+            type: "error",
+            message: `${message}`,
+          });
+        });
+    }
+  }
+
   return (
     <div id="page-login">
       <Illustration></Illustration>
@@ -47,7 +95,7 @@ export function Login() {
           </p>
         </div>
         <div className="main-content">
-          <button className="login-google">
+          <button className="login-google" onClick={authLoginGoogle}>
             <img src={iconGoogle} alt="Logo do Google" />
           </button>
           <div className="separator">ou</div>
@@ -71,9 +119,10 @@ export function Login() {
             </div>
             <Button type="submit">Entrar</Button>
             <span>
-              <a href="">Esqueceu a senha?</a>
+              <Link to="/forgot-password">Esqueceu a senha?</Link>
             </span>
           </form>
+          <Toast />
         </div>
       </main>
     </div>

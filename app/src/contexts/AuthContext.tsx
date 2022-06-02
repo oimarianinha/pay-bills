@@ -1,63 +1,117 @@
 // React
-import { createContext, ReactNode, useState, useEffect } from "react";
+import {
+  createContext,
+  ReactNode,
+  useState,
+  useEffect,
+  FormEvent,
+} from "react";
 
-// Google Firebase
-import { firebase, auth } from "../services/firebase";
+// Firebase
+import { firebase } from "../services/firebase";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 
 type UserType = {
   id: string;
-  user_email: string | null;
+  email: string | null;
 };
+
 type AuthContextType = {
   user: UserType | undefined;
+  registerWithEmailAndPassword: (props: UserRegister) => Promise<void>;
+  loginWithEmailandPassword: (props: UserAuth) => Promise<void>;
+  resetPassword: (props: UserReset) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
 };
 
 type AuthContextProviderPropsType = {
-  children: ReactNode;
+  children?: ReactNode;
+};
+
+type UserAuth = {
+  email: string;
+  senha: string;
+};
+
+type UserRegister = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  senha: string;
+};
+
+type UserReset = {
+  email: string;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props: AuthContextProviderPropsType) {
   const [user, setUser] = useState<UserType>();
+  const auth = getAuth(firebase);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const { email, uid } = user;
+  // useEffect(() => auth.onAuthStateChanged(setUser), []);
 
-        if (!email) {
-          throw new Error("Informações faltantes na conta do Google");
-        }
+  async function registerWithEmailAndPassword(props: UserRegister) {
+    await createUserWithEmailAndPassword(
+      auth,
+      props.email,
+      props.senha
+    );
+  }
 
-        setUser({
-          id: uid,
-          user_email: email
-        });
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  async function resetPassword(props: UserReset) {
+    await sendPasswordResetEmail(auth, props.email);
+  }
+
+  async function loginWithEmailandPassword(props: UserAuth) {
+    await signInWithEmailAndPassword(
+      auth,
+      props.email,
+      props.senha
+    )
+    // const { uid, email } = login.user;
+
+    // if (!email){
+    //   throw new Error("Informações faltantes na conta");
+    // }
+
+    // setUser({
+    //   id: uid,
+    //   email: email,
+    // });
+  }
 
   async function signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
 
-    const result = await auth.signInWithPopup(provider);
+    const result = await signInWithPopup(auth, provider);
     if (result.user) {
-      const { email, uid } = result.user;
-
+      const { uid, email } = result.user;
       setUser({
         id: uid,
-        user_email: email,
+        email: email,
       });
     }
   }
 
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        registerWithEmailAndPassword,
+        loginWithEmailandPassword,
+        resetPassword,
+        signInWithGoogle,
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );
